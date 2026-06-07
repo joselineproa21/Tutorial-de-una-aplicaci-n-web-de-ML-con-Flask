@@ -14,6 +14,7 @@ app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'modelo_ansiedad_rf.pkl'))
 model_columns = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'columnas_modelo.pkl'))
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates')) 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
