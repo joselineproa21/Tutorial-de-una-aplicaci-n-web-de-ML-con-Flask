@@ -5,12 +5,15 @@
 from flask import Flask, request, render_template
 import pandas as pd
 import joblib
+import os
+
 
 app = Flask(__name__)
 
 #CARGA 
-model = joblib.load('../models/modelo_ansiedad_rf.pkl')
-model_columns = joblib.load('../models/columnas_modelo.pkl')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'modelo_ansiedad_rf.pkl'))
+model_columns = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'columnas_modelo.pkl'))
 
 @app.route("/", methods=["GET", "POST"])
 def index():
