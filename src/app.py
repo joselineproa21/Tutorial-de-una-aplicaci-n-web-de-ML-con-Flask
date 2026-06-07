@@ -74,3 +74,11 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    print(">>> Entrando en index()")  # debug
+    pred_class = None
+    ...
+    print(">>> Renderizando template")  # debug
+    return render_template("index.html", prediction_text=pred_class)
