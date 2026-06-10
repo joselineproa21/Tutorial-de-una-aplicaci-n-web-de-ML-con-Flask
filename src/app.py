@@ -5,13 +5,17 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
+app = Flask(__name__)
 
 # CARGA
 model = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'modelo_ansiedad_rf.pkl'))
 model_columns = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'columnas_modelo.pkl'))
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/predict", methods=["POST"])
 def index():
     pred_class = None
 
@@ -47,7 +51,7 @@ def index():
         else:
             pred_class = "Nivel de Ansiedad: BAJA"
 
-    return render_template("index.html", prediction_text=pred_class)
+    return render_template("index.html", resultado=pred_class)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predictor de Ansiedad y Música</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; }
+        fieldset { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+        legend { font-weight: bold; color: #2980b9; padding: 0 10px; }
+        label { display: inline-block; width: 220px; margin-bottom: 10px; }
+        select, input { padding: 5px; width: 200px; }
+        button { background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
+        button:hover { background-color: #27ae60; }
+        .resultado { margin-top: 20px; padding: 15px; background-color: #d5f5e3; color: #1e8449; border-radius: 5px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>¿Cómo influye la música en tu ansiedad?</h1>
+    <p>Rellena el formulario para obtener la predicción del modelo.</p>
+
+    <form action="/" method="post">
+        <fieldset>
+            <legend>Datos Personales y Hábitos</legend>
+            
+            <label for="Age">Edad:</label>
+            <input type="number" name="Age" min="1" max="100" required><br>
+
+            <label for="Hours per day">Horas de escucha al día:</label>
+            <input type="number" step="any" name="Hours per day" min="0" max="24" required><br>
+
+            <label for="While working">¿Escuchas mientras trabajas?:</label>
+            <select name="While working" required>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="Instrumentalist">¿Tocas algún instrumento?:</label>
+            <select name="Instrumentalist" required>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="Composer">¿Eres compositor?:</label>
+            <select name="Composer" required>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="Exploratory">¿Exploras nuevos géneros?:</label>
+            <select name="Exploratory" required>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="Foreign languages">¿Escuchas musica en otros idiomas?:</label>
+            <select name="Foreign languages" required>
+                <option value="Yes">Sí</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="Music effects">Qué efectos dirías que tiene la música en ti:</label>
+            <select name="Music effects" required>
+                <option value="Improve">Mejora (Improve)</option>
+                <option value="No effect">Sin efecto (No effect)</option>
+                <option value="Worsen">Empeora (Worsen)</option>
+            </select><br>
+
+            <label for="Fav genre">Tu género favorito:</label>
+            <select name="Fav genre" required>
+                <option value="Country">Country</option>
+                <option value="EDM">EDM</option>
+                <option value="Folk">Folk</option>
+                <option value="Gospel">Gospel</option>
+                <option value="Hip hop">Hip hop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="K pop">K pop</option>
+                <option value="Latin">Latin</option>
+                <option value="Lofi">Lofi</option>
+                <option value="Metal">Metal</option>
+                <option value="Pop">Pop</option>
+                <option value="R&B">R&B</option>
+                <option value="Rap">Rap</option>
+                <option value="Rock">Rock</option>
+                <option value="Video game music">Video game music</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Frecuencia de escucha por género</legend>
+            <p style="font-size: 12px; color: #7f8c8d;">Selecciona con qué frecuencia escuchas cada estilo:</p>
+            
+            {% set generos = ['Classical', 'Country', 'EDM', 'Folk', 'Gospel', 'Hip hop', 'Jazz', 'K pop', 'Latin', 'Lofi', 'Metal', 'Pop', 'R&B', 'Rap', 'Rock', 'Video game music'] %}
+            
+            {% for g in generos %}
+            <label>Frequency [{{ g }}]:</label>
+            <select name="Frequency [{{ g }}]" required>
+                <option value="0">Never (Nunca)</option>
+                <option value="1">Rarely (Rara vez)</option>
+                <option value="2">Sometimes (A veces)</option>
+                <option value="3">Very frequently (Muy seguido)</option>
+            </select><br>
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit">Calcular Predicción</button>
+    </form>
+
+    {% if resultado %}
+        <h2>Resultado de la predicción: {{ resultado }}</h2>
+    {% endif %}
+    
+</div>
+
+</body>
+</html>
