@@ -2,27 +2,190 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictor de Ansiedad y Música</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; background-color: #f4f7f6; color: #333; }
-        .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; }
-        fieldset { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
-        legend { font-weight: bold; color: #2980b9; padding: 0 10px; }
-        label { display: inline-block; width: 220px; margin-bottom: 10px; }
-        select, input { padding: 5px; width: 200px; }
-        button { background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
-        button:hover { background-color: #27ae60; }
-        .resultado { margin-top: 20px; padding: 15px; background-color: #d5f5e3; color: #1e8449; border-radius: 5px; text-align: center; font-weight: bold; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+ 
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fdf0f5;
+            color: #5a3a45;
+            min-height: 100vh;
+            padding: 24px 16px 48px;
+        }
+ 
+        .container {
+            max-width: 580px;
+            margin: 0 auto;
+            background: #fff8fb;
+            padding: 32px 28px;
+            border-radius: 16px;
+            border: 1.5px solid #f5c6d8;
+            box-shadow: 0 4px 24px rgba(230, 130, 170, 0.12);
+        }
+ 
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+ 
+        .header .emoji {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+ 
+        h1 {
+            font-size: clamp(1.4rem, 5vw, 1.9rem);
+            color: #c4607a;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            font-weight: normal;
+            font-style: italic;
+        }
+ 
+        .subtitle {
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #a07080;
+        }
+ 
+        fieldset {
+            border: 1.5px solid #f5c6d8;
+            border-radius: 12px;
+            padding: 20px 18px;
+            margin-bottom: 18px;
+            background: #fffafc;
+        }
+ 
+        legend {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #c4607a;
+            padding: 0 10px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+ 
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+ 
+        .field:last-child {
+            margin-bottom: 0;
+        }
+ 
+        label {
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            color: #7a4a58;
+        }
+ 
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #f0b8cc;
+            border-radius: 8px;
+            background: white;
+            color: #5a3a45;
+            font-size: 0.9rem;
+            font-family: Arial, sans-serif;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: border-color 0.2s;
+        }
+ 
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #c4607a;
+            box-shadow: 0 0 0 3px rgba(196, 96, 122, 0.1);
+        }
+ 
+        .frecuencia-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+ 
+        @media (max-width: 420px) {
+            .frecuencia-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+ 
+        .freq-note {
+            font-family: Arial, sans-serif;
+            font-size: 0.78rem;
+            color: #b090a0;
+            margin-bottom: 14px;
+        }
+ 
+        button[type="submit"] {
+            width: 100%;
+            background: linear-gradient(135deg, #e87da0, #c4607a);
+            color: white;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 0.02em;
+            margin-top: 6px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+ 
+        button[type="submit"]:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+ 
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+ 
+        .resultado {
+            margin-top: 22px;
+            padding: 18px;
+            background: linear-gradient(135deg, #fde8f0, #fdd5e5);
+            color: #a03055;
+            border-radius: 12px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 1.5px solid #f5b8cc;
+            letter-spacing: 0.01em;
+        }
+ 
+        .resultado::before {
+            content: '🎵 ';
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>¿Cómo influye la música en tu ansiedad?</h1>
-    <p>Rellena el formulario para obtener la predicción del modelo.</p>
+    <div class="header">
+        <span class="emoji">🎧</span>
+        <h1>¿Cómo influye la música en tu ansiedad?</h1>
+        <p class="subtitle">Rellena el formulario para obtener la predicción del modelo.</p>
+    </div>
+ 
 
-    <form action="/" method="post">
+    <form action="/predict" method="post">
         <fieldset>
             <legend>Datos Personales y Hábitos</legend>
             
@@ -96,7 +259,7 @@
             {% set generos = ['Classical', 'Country', 'EDM', 'Folk', 'Gospel', 'Hip hop', 'Jazz', 'K pop', 'Latin', 'Lofi', 'Metal', 'Pop', 'R&B', 'Rap', 'Rock', 'Video game music'] %}
             
             {% for g in generos %}
-            <label>Frequency [{{ g }}]:</label>
+            <label> {{ g }}:</label>
             <select name="Frequency [{{ g }}]" required>
                 <option value="0">Never (Nunca)</option>
                 <option value="1">Rarely (Rara vez)</option>
@@ -108,11 +271,12 @@
 
         <button type="submit">Calcular Predicción</button>
     </form>
-
+    
     {% if resultado %}
-        <h2>Resultado de la predicción: {{ resultado }}</h2>
+        <div class="resultado">{{ resultado }}</div>
     {% endif %}
     
+</div>
 </div>
 
 </body>
