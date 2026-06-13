@@ -53,8 +53,8 @@ def predict():
     # 4. Construir DataFrame y alinear columnas
     df_final = pd.DataFrame([datos]).reindex(columns=model_columns, fill_value=0)
 
-    prediccion = model.predict(df_final)[0]
-    pred_class = "Nivel de Ansiedad: ALTA" if prediccion == 1 else "Nivel de Ansiedad: BAJA"
+    proba_alta = model.predict_proba(df_final)[0][1]  # probabilidad de clase 1 (ALTA)
+    pred_class = "Nivel de Ansiedad: ALTA" if proba_alta >= 0.40 else "Nivel de Ansiedad: BAJA"
 
     return render_template("index.html", resultado=pred_class)
 
